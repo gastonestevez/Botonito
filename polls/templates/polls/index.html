@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Respuestas</title>
+    <h1>Bienvenido a Botonito</h1>
+    <h2>Conteste las siguientes preguntas</h2>
+</head>
+
+<body>
+<form action="/polls/voteBoard/" method="post">
+
+    {% csrf_token %}
+    <p>
+        <li> Su nombre?</li>
+        <input type="text" name="nombreDeUsuario" id="nombreDeUsuario"/>
+    </p>
+    {% for question in listadoDePreguntas %}
+        <p>
+            <li>{{question.pregunta}}</li>
+            <input type="text" name="preguntita{{forloop.counter}}" id="preguntita{{forloop.counter}}"/>
+        </p>
+    {% endfor %}
+
+    <input type="submit" value="Vote" />
+
+</form>
+
+</body>
+</html>
