@@ -5,6 +5,7 @@ from .models import Answer
 from .models import Personaje
 from django.template import loader
 
+
 # Create your views here.
 
 def index(request):
@@ -13,17 +14,17 @@ def index(request):
 
 def respondePreguntas(request):
     listadoDePreguntas = Question.objects.order_by('?')[:5]
-    template = loader.get_template('polls/index.html')
-
     context = {
         'listadoDePreguntas': listadoDePreguntas,
     }
-    return render(request,'polls/index.html',context)
+    return render(request, 'polls/index.html', context)
 
 
 def voteBoard(request):
-    if(request.method == 'POST'):
+    if request.method == 'POST':
         usuarioIngresado = request.POST['nombreDeUsuario']
-        Personaje(nombre=usuarioIngresado).save()
-
-    return HttpResponse(usuarioIngresado)
+        if not Personaje.objects.filter(nombre=usuarioIngresado).exists():
+            Personaje(nombre=usuarioIngresado).save()
+            return HttpResponse(usuarioIngresado)
+        else:
+            return HttpResponse("Usted ya se registro, careta!")
