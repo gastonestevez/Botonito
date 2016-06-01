@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main Board Botonito</title>
+</head>
+<body>
+<p>
+    <h3>Tablero Principal</h3>
+</p>
+<hr><hr>
+<div id="divVotosRecolectados">
+    <p>
+        <h3>Votos Recolectados:</h3>
+        {% for usuario in listadoDeUsuarios %}
+        <li> Jugador {{forloop.counter}}
+            # Votos: {{usuario.votos}} </li>
+        {% endfor %}
+    </p>
+</div>
+<hr>
+<div>
+<p><h3> Vota las siguientes Respuestas: </h3></p>
+    {% for respuesta in listadoDeRespuestas %}
+        <li>
+            {{respuesta.pregunta.pregunta}}
+            <li>
+                {{respuesta.respuesta}}
+            </li>
+        </li>
+    {% endfor %}
+</div>
+<hr>
+<form action="/polls/usuarioVota/" method="post" id="ideal_form">
+    {% csrf_token %}
+
+    <button id="votA">VOT A</button>
+    <button id="votB">VOT B</button>
+    <hr>
+</form>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    function loadlink(){
+        $('#divVotosRecolectados').load('/polls/mainboard.html',function () {
+             $(this).unwrap();
+        });
+    }
+
+    loadlink(); // This will run on page load
+    setInterval(function(){
+        loadlink() // this will run after every 5 seconds
+    }, 3000);
+
+    loadlink();
+</script>
